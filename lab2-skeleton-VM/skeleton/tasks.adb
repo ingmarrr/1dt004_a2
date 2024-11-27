@@ -20,7 +20,16 @@ package body Tasks is
     -- task body starts here ---
 
     loop
-      -- read sensors and print (have a look at webots_api.ads) ----
+      -- read sensors and print ----
+      Ada.Text_IO.Put_Line("LS1      : " & read_light_sensor(LS1)'Image);
+      Ada.Text_IO.Put_Line("LS2      : " & read_light_sensor(LS2)'Image);
+      Ada.Text_IO.Put_Line("LS3      : " & read_light_sensor(LS3)'Image);
+      Ada.Text_IO.Put_Line("UP       : " & button_pressed(UpButton)'Image);
+      Ada.Text_IO.Put_Line("DOWN     : " & button_pressed(DownButton)'Image);
+      Ada.Text_IO.Put_Line("LEFT     : " & button_pressed(LeftButton)'Image);
+      Ada.Text_IO.Put_Line("RIGHT    : " & button_pressed(RightButton)'Image);
+      Ada.Text_IO.Put_Line("DISTANCE : " & read_distance_sensor'Image);
+      Ada.Text_IO.Put_Line("-----------------------------------");
 
       Next_Time := Next_Time + Period_Display;
       delay until Next_Time;
