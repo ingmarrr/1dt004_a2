@@ -2,3 +2,7 @@
 /bin/
 /alire/
 /config/
+*.ali
+*.exe
+*.o
+*.json
