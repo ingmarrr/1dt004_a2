@@ -26,10 +26,14 @@ package body Tasks3 is
 
    task LineFollowingTask is
      pragma Priority(3);
+     entry Start;
+     entry Stop;
    end LineFollowingTask;
 
    task DistanceTask is
      pragma Priority(4);
+     entry Start;
+     entry Stop;
    end DistanceTask;
    
    task DisplayTask is
@@ -72,62 +76,90 @@ package body Tasks3 is
   end MotorControlTask;
 
   task body LineFollowingTask is
-    ls1        : Integer;
-    ls2        : Integer;
-    ls3        : Integer;
-    next_time  : Time := Time_Zero;
+    ls_1      : Integer;
+    ls_2      : Integer;
+    ls_3      : Integer;
+    next_time : Time := Time_Zero;
+    moving            : Boolean := False;
     blackline_detected: Boolean := False;
   begin
     loop
       delay until next_time;
       next_time := next_time + TIME_DELTA;
 
-      ls1 := read_light_sensor(LS1);
-      ls2 := read_light_sensor(LS2);
-      ls3 := read_light_sensor(LS3);
+      select
+        accept Start do
+          moving := True;
+        end Start;
+      or
+        accept Stop do
+          moving := False;
+        end Stop;
+      end select;
 
-      if ls1 < BLACKLINE_THRESHOLD and ls2 < BLACKLINE_THRESHOLD and ls3 < BLACKLINE_THRESHOLD 
-         or not ls1 < BLACKLINE_THRESHOLD and ls2 < BLACKLINE_THRESHOLD and not ls3 < BLACKLINE_THRESHOLD
-         or ls1 < BLACKLINE_THRESHOLD and not ls2 < BLACKLINE_THRESHOLD and ls3 < BLACKLINE_THRESHOLD 
+      if not moving then 
+        goto Continue;
+      end if;
+
+      ls_1 := read_light_sensor(LS1);
+      ls_2 := read_light_sensor(LS2);
+      ls_3 := read_light_sensor(LS3);
+
+      if (ls_1 < BLACKLINE_THRESHOLD and ls_2 < BLACKLINE_THRESHOLD and ls_3 < BLACKLINE_THRESHOLD)
+         or (ls_1 > BLACKLINE_THRESHOLD and ls_2 < BLACKLINE_THRESHOLD and ls_3 > BLACKLINE_THRESHOLD)
+         or (ls_1 < BLACKLINE_THRESHOLD and ls_2 > BLACKLINE_THRESHOLD and ls_3 < BLACKLINE_THRESHOLD)
       then
          MotorData.SetLeft(MOTORSPEED);
          MotorData.SetRight(MOTORSPEED);
-      elsif ls1 < BLACKLINE_THRESHOLD then
+      elsif ls_1 < BLACKLINE_THRESHOLD then
          MotorData.SetLeft(0);
          MotorData.SetRight(MOTORSPEED);
-      elsif ls3 < BLACKLINE_THRESHOLD then
+      elsif ls_3 < BLACKLINE_THRESHOLD then
          MotorData.SetLeft(MOTORSPEED);
          MotorData.SetRight(0);
       else
          MotorData.SetLeft(0);
          MotorData.SetRight(0);
+         DistanceTask.Stop;
       end if;
+      <<Continue>>
     end loop;
   end LineFollowingTask;
 
   task body DistanceTask is 
     next_time : Time := Time_Zero;
-    distance  : Intger;
+    distance  : Integer;
+    moving    : Boolean := False;
   begin
     loop
       delay until next_time;
       next_time := next_time + TIME_DELTA;
 
-      distance := read_distance_sensor;
-      if distance < 60 then
-        MotorData.SetLeft(MOTORSPEED * 0.5);
-        MotorData.SetRight(MOTORSPEED * 0.5);
-      elsif distance < 40 then
-        MotorData.SetLeft(MOTORSPEED * 0.3);
-        MotorData.SetRight(MOTORSPEED * 0.3);
-      elsif distance < 20 then
-        MotorData.SetLeft(MOTORSPEED * 0.1);
-        MotorData.SetRight(MOTORSPEED * 0.1);
-      else
-        MotorData.SetLeft(0);
-        MotorData.SetRight(0);
+      select
+        accept Start do
+          moving := True;
+        end Start;
+      or
+        accept Stop do
+          moving := False;
+        end Stop;
+      end select;
+
+      if not moving then 
+        goto Continue;
       end if;
 
+      distance := read_distance_sensor;
+      if distance > 70 then
+        MotorData.SetLeft(MOTORSPEED / 2);
+        MotorData.SetRight(MOTORSPEED / 2);
+      elsif distance > 80 then
+        MotorData.SetLeft(0);
+        MotorData.SetRight(0);
+        LineFollowingTask.Stop;
+      end if;
+
+      <<Continue>>
     end loop;
   end DistanceTask;
 
@@ -156,6 +188,8 @@ package body Tasks3 is
   procedure Background is
   begin
      while not simulation_stopped loop
+        LineFollowingTask.Start;
+        DistanceTask.Start;
         delay 0.25; -- Prevents busy waiting
      end loop;
   end Background;
