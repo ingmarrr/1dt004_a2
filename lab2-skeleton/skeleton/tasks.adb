@@ -1,5 +1,6 @@
 with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Real_Time;  use Ada.Real_Time;
+with Ada.Command_Line; use Ada.Command_Line;
 with System;
 
 with Webots_API;   use Webots_API;
@@ -20,6 +21,7 @@ package body Tasks is
 
   begin      
     -- task body starts here ---
+    if Argument (1) = "1" then
     loop
       -- read sensors and print ----
       Ada.Text_IO.Put_Line("LS1      : " & read_light_sensor(LS1)'Image);
@@ -40,6 +42,9 @@ package body Tasks is
 
       exit when simulation_stopped;
     end loop;
+    else
+      Put_Line ("ERROR: missing arguments! Exiting...");
+   end if;
   end HelloworldTask;
 
   -- Background procedure required for package

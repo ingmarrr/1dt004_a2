@@ -1,6 +1,8 @@
 with Tasks;
 with System;
+with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Real_Time;  use Ada.Real_Time;
+with Ada.Command_Line; use Ada.Command_Line;
 
 with Webots_API;     use Webots_API;
 
@@ -30,7 +32,6 @@ procedure main is
   end SyncTask;
 
 begin
-  SyncTask.start;
-  Tasks.Background;
-
+   SyncTask.start;
+   Tasks.Background;
 end main;
