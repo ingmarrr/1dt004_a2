@@ -93,17 +93,17 @@ MOTORSPEED : constant Integer := 400;
      Event.Wait(received_event); -- Waiting for signalled events
            case received_event is
               when UpButtonPressed =>
-                 set_motor_speed(LeftMotor, -MOTORSPEED); -- Could be adjusted between [-999, +999]
-                 set_motor_speed(RightMotor, -MOTORSPEED);
+                 set_motor_speed(LeftMotor, MOTORSPEED); -- Could be adjusted between [-999, +999]
+                 set_motor_speed(RightMotor, MOTORSPEED);
               when DownButtonPressed =>
-                 set_motor_speed(LeftMotor, MOTORSPEED);
-                 set_motor_speed(RightMotor, MOTORSPEED);
+                 set_motor_speed(LeftMotor, -MOTORSPEED);
+                 set_motor_speed(RightMotor, -MOTORSPEED);
               when RightButtonPressed =>
-                 set_motor_speed(RightMotor, MOTORSPEED);
-                 set_motor_speed(LeftMotor, 0);
-              when LeftButtonPressed =>
-                 set_motor_speed(RightMotor, 0);
                  set_motor_speed(LeftMotor, MOTORSPEED);
+                 set_motor_speed(RightMotor, 0);
+              when LeftButtonPressed =>
+                 set_motor_speed(LeftMotor, 0);
+                 set_motor_speed(RightMotor, MOTORSPEED);
               when UpButtonReleased | DownButtonReleased | RightButtonReleased | LeftButtonReleased =>
                  set_motor_speed(LeftMotor, 0);
                  set_motor_speed(RightMotor, 0);
