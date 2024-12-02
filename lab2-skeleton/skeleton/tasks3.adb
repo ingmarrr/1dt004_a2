@@ -12,7 +12,7 @@ package body Tasks3 is
   protected MotorData is
     procedure SetLeft(Left: Integer);
     procedure SetRight(Right: Integer);
-    procedure SetMoving(value: Integer);
+    procedure SetMoving(value: Boolean);
     function GetLeft  return Integer;
     function GetRight return Integer;
     function GetMoving return Boolean;
@@ -49,13 +49,9 @@ package body Tasks3 is
       right_speed := Right;
     end SetRight;
 
-    procedure SetMoving (value: Integer) is
+    procedure SetMoving (value: Boolean) is
     begin
-      if value = 1 then
-        moving := True;
-      else
-        moving := False;
-      end if;
+      moving := value;
     end SetMoving;
 
     function GetMoving return Boolean is
@@ -137,9 +133,9 @@ package body Tasks3 is
       distance := read_distance_sensor;
 
       if distance > THRESHOLD then --distance greater than a threshold - should stop the motors
-        MotorData.SetMoving (2);
+        MotorData.SetMoving (False);
       else -- above the threshold - resumes moving
-        MotorData.SetMoving (1);
+        MotorData.SetMoving (True);
       end if;
     end loop;
   end DistanceTask;
