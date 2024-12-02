@@ -2,6 +2,7 @@
 --with Tasks2_1;
 --with Tasks2_2;
 with Tasks3;
+
 with System;
 with Ada.Text_IO;    use Ada.Text_IO;
 with Ada.Real_Time;  use Ada.Real_Time;
@@ -10,7 +11,6 @@ with Ada.Command_Line; use Ada.Command_Line;
 with Webots_API;     use Webots_API;
 
 procedure main is
-
   pragma Priority (System.Priority'First);
 
   -- do not modify below task, it syncs with Webots

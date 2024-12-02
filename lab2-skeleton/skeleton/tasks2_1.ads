@@ -10,7 +10,9 @@ private
   Time_Zero      : Time := Clock;
       
   --  Other specifications  --
-  type EventID is (Idle, UpButtonPressed, UpButtonReleased, DownButtonPressed, DownButtonReleased, 
-  LeftButtonPressed, LeftButtonReleased, RightButtonPressed, RightButtonReleased);
-
+  type EventID is (Idle, UpButtonPressed, 
+    UpButtonReleased, DownButtonPressed, 
+    DownButtonReleased, LeftButtonPressed, 
+    LeftButtonReleased, RightButtonPressed, 
+    RightButtonReleased);
 end tasks2_1;

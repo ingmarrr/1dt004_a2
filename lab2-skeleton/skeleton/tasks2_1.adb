@@ -81,34 +81,35 @@ package body Tasks2_1 is
       Next_Time := Next_Time + Period_Display10m;
       delay until Next_Time;
 
-      exit when simulation_stopped;
+    exit when simulation_stopped;
     end loop;
   end EventDispatcherTask;
 
   task body MotorControlTask is
     received_event : EventID := Idle;
   begin
-     loop
-     Event.Wait(received_event); -- Waiting for signalled events
-           case received_event is
-              when UpButtonPressed =>
-                 set_motor_speed(LeftMotor, -MOTORSPEED); -- Could be adjusted between [-999, +999]
-                 set_motor_speed(RightMotor, -MOTORSPEED);
-              when DownButtonPressed =>
-                 set_motor_speed(LeftMotor, MOTORSPEED);
-                 set_motor_speed(RightMotor, MOTORSPEED);
-              when RightButtonPressed =>
-                 set_motor_speed(LeftMotor, 0);
-                 set_motor_speed(RightMotor, MOTORSPEED);
-              when LeftButtonPressed =>
-                 set_motor_speed(LeftMotor, MOTORSPEED);
-                 set_motor_speed(RightMotor, 0);
-              when UpButtonReleased | DownButtonReleased | RightButtonReleased | LeftButtonReleased =>
-                 set_motor_speed(LeftMotor, 0);
-                 set_motor_speed(RightMotor, 0);
-              when others =>
-                 Put_Line("Unknown Event");
-           end case;
+    loop
+      Event.Wait (received_event); -- Waiting for signalled events
+           
+      case received_event is
+        when UpButtonPressed =>
+          set_motor_speed (LeftMotor, MOTORSPEED); -- Could be adjusted between [-999, +999]
+          set_motor_speed (RightMotor, MOTORSPEED);
+        when DownButtonPressed =>
+          set_motor_speed (LeftMotor, -MOTORSPEED);
+          set_motor_speed (RightMotor, -MOTORSPEED);
+        when RightButtonPressed =>
+          set_motor_speed (RightMotor, 0);
+          set_motor_speed (LeftMotor, MOTORSPEED);
+        when LeftButtonPressed =>
+          set_motor_speed (RightMotor, MOTORSPEED);
+          set_motor_speed (LeftMotor, 0);
+        when UpButtonReleased | DownButtonReleased | RightButtonReleased | LeftButtonReleased =>
+          set_motor_speed (LeftMotor, 0);
+          set_motor_speed (RightMotor, 0);
+        when others =>
+          Put_Line ("Unknown Event");
+      end case;
 
     exit when simulation_stopped;
     end loop;
@@ -123,5 +124,4 @@ package body Tasks2_1 is
         delay 0.25; -- Prevents busy waiting
      end loop;
   end Background;
-
 end Tasks2_1;

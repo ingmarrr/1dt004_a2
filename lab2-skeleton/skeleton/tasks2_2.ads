@@ -11,7 +11,9 @@ private
       
   --  Other specifications  --
   type Dir is (Up, Down, Undefined);
-  type EventID is (Idle, UpButtonPressed, UpButtonReleased, DownButtonPressed, DownButtonReleased, 
-  LeftButtonPressed, LeftButtonReleased, RightButtonPressed, RightButtonReleased, On_Blackline, Off_Blackline);
-
+  type EventID is (Idle, UpButtonPressed, 
+    UpButtonReleased, DownButtonPressed, 
+    DownButtonReleased, LeftButtonPressed, 
+    LeftButtonReleased, RightButtonPressed, 
+    RightButtonReleased, On_Blackline, Off_Blackline);
 end tasks2_2;

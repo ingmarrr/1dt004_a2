@@ -10,9 +10,9 @@ package body Tasks3 is
   THRESHOLD            : constant Integer := 80;  -- threshold value
 
   protected MotorData is
-    procedure SetLeft(Left: Integer);
-    procedure SetRight(Right: Integer);
-    procedure SetMoving(value: Integer);
+    procedure SetLeft (Left: Integer);
+    procedure SetRight (Right: Integer);
+    procedure SetMoving (value: Integer);
     function GetLeft  return Integer;
     function GetRight return Integer;
     function GetMoving return Boolean;
@@ -99,8 +99,8 @@ package body Tasks3 is
       next_time := next_time + TIME_DELTA;
 
       if not MotorData.GetMoving then  -- the robot should not move
-        MotorData.SetLeft(0);
-        MotorData.SetRight(0);
+        MotorData.SetLeft (0);
+        MotorData.SetRight (0);
       else -- when it is moving
         ls_1 := read_light_sensor(LS1);
         ls_2 := read_light_sensor(LS2);
@@ -110,17 +110,17 @@ package body Tasks3 is
           or (ls_1 > BLACKLINE_THRESHOLD and ls_2 < BLACKLINE_THRESHOLD and ls_3 > BLACKLINE_THRESHOLD)
           or (ls_1 < BLACKLINE_THRESHOLD and ls_2 > BLACKLINE_THRESHOLD and ls_3 < BLACKLINE_THRESHOLD)
         then
-          MotorData.SetLeft(MOTORSPEED);
-          MotorData.SetRight(MOTORSPEED);
+          MotorData.SetLeft (MOTORSPEED);
+          MotorData.SetRight (MOTORSPEED);
         elsif ls_1 < BLACKLINE_THRESHOLD then
-          MotorData.SetLeft(0);
-          MotorData.SetRight(MOTORSPEED);
+          MotorData.SetLeft (0);
+          MotorData.SetRight (MOTORSPEED);
         elsif ls_3 < BLACKLINE_THRESHOLD then
-          MotorData.SetLeft(MOTORSPEED);
-          MotorData.SetRight(0);
+          MotorData.SetLeft (MOTORSPEED);
+          MotorData.SetRight (0);
         else
-          MotorData.SetLeft(0);
-          MotorData.SetRight(0);
+          MotorData.SetLeft (0);
+          MotorData.SetRight (0);
         end if;
       end if;
     end loop;
@@ -151,11 +151,11 @@ package body Tasks3 is
       delay until next_time;
       next_time := next_time + TIME_DELTA;
 
-      Put_Line("LS1      : " & read_light_sensor(LS1)'Image);
-      Put_Line("LS2      : " & read_light_sensor(LS2)'Image);
-      Put_Line("LS3      : " & read_light_sensor(LS3)'Image);
-      Put_Line("DISTANCE : " & read_distance_sensor'Image);
-      Put_Line("-----------------------------------");
+      Put_Line ("LS1      : " & read_light_sensor (LS1)'Image);
+      Put_Line ("LS2      : " & read_light_sensor (LS2)'Image);
+      Put_Line ("LS3      : " & read_light_sensor (LS3)'Image);
+      Put_Line ("DISTANCE : " & read_distance_sensor'Image);
+      Put_Line ("-----------------------------------");
     end loop;
   end DisplayTask;
 
@@ -169,5 +169,4 @@ package body Tasks3 is
         delay 0.25; -- Prevents busy waiting
       end loop;
   end Background;
-
 end Tasks3;
