@@ -5,10 +5,6 @@ with System;
 with Webots_API;   use Webots_API;
 
 package body Tasks3 is
-  BLACKLINE_THRESHOLD  : constant Integer := 600; -- For white area, light is around 830
-  MOTORSPEED           : constant Integer := 400; -- constant motor speed value
-  THRESHOLD            : constant Integer := 80;  -- threshold value
-
   protected MotorData is
     procedure SetLeft (Left: Integer);
     procedure SetRight (Right: Integer);

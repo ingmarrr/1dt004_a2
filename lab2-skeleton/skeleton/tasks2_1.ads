@@ -10,6 +10,7 @@ private
   Time_Zero      : Time := Clock;
       
   --  Other specifications  --
+  MOTORSPEED : constant Integer := 400; -- Could be adjusted between [-999, +999]
   type EventID is (Idle, UpButtonPressed, 
     UpButtonReleased, DownButtonPressed, 
     DownButtonReleased, LeftButtonPressed, 

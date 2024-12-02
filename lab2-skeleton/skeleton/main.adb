@@ -1,4 +1,3 @@
---with Tasks;
 --with Tasks2_1;
 --with Tasks2_2;
 with Tasks3;
@@ -36,8 +35,7 @@ procedure main is
 
 begin
     SyncTask.start;
-    -- Tasks.Background;
-    -- Tasks2_1.Background;
-    -- Tasks2_2.Background;
+    --Tasks2_1.Background;
+    --Tasks2_2.Background;
     Tasks3.Background;
 end main;

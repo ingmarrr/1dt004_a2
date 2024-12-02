@@ -5,10 +5,6 @@ with System;
 with Webots_API;   use Webots_API;
 
 package body Tasks2_2 is
-
-  BLACKLINE_THRESHOLD : constant Integer := 600; -- For white area, light is around 830
-  MOTORSPEED : constant Integer := 400;
-
   protected Event is
     entry Wait (id : out EventID);
     procedure Signal (id : in EventID);
@@ -126,7 +122,7 @@ package body Tasks2_2 is
       
       case received_event is
         when UpButtonPressed =>
-          set_motor_speed (LeftMotor, -MOTORSPEED); -- Could be adjusted between [-999, +999]
+          set_motor_speed (LeftMotor, -MOTORSPEED);
           set_motor_speed (RightMotor, -MOTORSPEED);
         when DownButtonPressed =>
           set_motor_speed (LeftMotor, MOTORSPEED);

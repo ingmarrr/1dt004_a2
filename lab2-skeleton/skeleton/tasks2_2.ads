@@ -10,6 +10,8 @@ private
   Time_Zero      : Time := Clock;
       
   --  Other specifications  --
+  BLACKLINE_THRESHOLD : constant Integer := 600; -- For white area, light is around 830
+  MOTORSPEED : constant Integer := 400; -- Could be adjusted between [-999, +999]
   type Dir is (Up, Down, Undefined);
   type EventID is (Idle, UpButtonPressed, 
     UpButtonReleased, DownButtonPressed, 
