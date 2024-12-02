@@ -17,11 +17,10 @@ package body Tasks is
 
   task body HelloworldTask is
     Next_Time : Time := Time_Zero;
-    MOTORSPEED : constant Integer := 200;
+    MOTORSPEED : constant Integer := 200; -- Could be adjusted between [-999, +999]
 
   begin      
     -- task body starts here ---
-    
     loop
       -- read sensors and print ----
       Put_Line("LS1      : " & read_light_sensor(LS1)'Image);
@@ -34,7 +33,7 @@ package body Tasks is
       Put_Line("DISTANCE : " & read_distance_sensor'Image);
       Put_Line("-----------------------------------");
 
-      set_motor_speed(LeftMotor, MOTORSPEED); -- Could be adjusted between [-999, +999]
+      set_motor_speed(LeftMotor, MOTORSPEED);
       set_motor_speed(RightMotor, MOTORSPEED);
 
       Next_Time := Next_Time + Period_Display;
@@ -46,9 +45,10 @@ package body Tasks is
 
   -- Background procedure required for package
   procedure Background is begin
-    while not simulation_stopped loop
-      delay 0.25;
-    end loop;
+    while not simulation_stopped 
+      loop
+        delay 0.25;
+      end loop;
   end Background;
 
 end Tasks;
