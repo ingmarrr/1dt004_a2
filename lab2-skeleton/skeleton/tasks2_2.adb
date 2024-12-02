@@ -86,12 +86,12 @@ package body Tasks2_2 is
           Event.Signal (RightButtonPressed);
           last_event := RightButtonPressed;
           Put_Line ("Right button pressed.");
-          last_dir := Up;  -- Turning is implemented as a "forward" movement (↓)
+          last_dir := Down;  -- Turning is implemented as a "forward" movement (↓)
         elsif button_pressed (LeftButton) and (last_event /= LeftButtonPressed) then
           Event.Signal (LeftButtonPressed);
           last_event := LeftButtonPressed;
           Put_Line ("Left button pressed.");
-          last_dir := Up;  -- Turning is implemented as a "forward" movement (↓)
+          last_dir := Down;  -- Turning is implemented as a "forward" movement (↓)
         elsif not button_pressed (UpButton) and (last_event = UpButtonPressed) then
           Event.Signal (UpButtonReleased);
           last_event := UpButtonReleased;
@@ -126,22 +126,20 @@ package body Tasks2_2 is
       
       case received_event is
         when UpButtonPressed =>
-          set_motor_speed (LeftMotor, MOTORSPEED); -- Could be adjusted between [-999, +999]
-          set_motor_speed (RightMotor, MOTORSPEED);
-        when DownButtonPressed =>
-          set_motor_speed (LeftMotor, -MOTORSPEED);
+          set_motor_speed (LeftMotor, -MOTORSPEED); -- Could be adjusted between [-999, +999]
           set_motor_speed (RightMotor, -MOTORSPEED);
-        when RightButtonPressed =>
-          set_motor_speed (RightMotor, 0);
+        when DownButtonPressed =>
           set_motor_speed (LeftMotor, MOTORSPEED);
-        when LeftButtonPressed =>
           set_motor_speed (RightMotor, MOTORSPEED);
+        when RightButtonPressed =>
           set_motor_speed (LeftMotor, 0);
+          set_motor_speed (RightMotor, MOTORSPEED);
+        when LeftButtonPressed =>
+          set_motor_speed (LeftMotor, MOTORSPEED);
+          set_motor_speed (RightMotor, 0);
         when UpButtonReleased | DownButtonReleased | RightButtonReleased | LeftButtonReleased =>
           set_motor_speed (LeftMotor, 0);
           set_motor_speed (RightMotor, 0);
-        when others =>
-          Put_Line ("Unknown Event");
         when On_Blackline =>
           set_motor_speed (LeftMotor, 0);
           set_motor_speed (RightMotor, 0);

@@ -93,17 +93,17 @@ package body Tasks2_1 is
            
       case received_event is
         when UpButtonPressed =>
-          set_motor_speed (LeftMotor, MOTORSPEED); -- Could be adjusted between [-999, +999]
-          set_motor_speed (RightMotor, MOTORSPEED);
-        when DownButtonPressed =>
-          set_motor_speed (LeftMotor, -MOTORSPEED);
+          set_motor_speed (LeftMotor, -MOTORSPEED); -- Could be adjusted between [-999, +999]
           set_motor_speed (RightMotor, -MOTORSPEED);
-        when RightButtonPressed =>
-          set_motor_speed (RightMotor, 0);
+        when DownButtonPressed =>
           set_motor_speed (LeftMotor, MOTORSPEED);
-        when LeftButtonPressed =>
           set_motor_speed (RightMotor, MOTORSPEED);
+        when RightButtonPressed =>
           set_motor_speed (LeftMotor, 0);
+          set_motor_speed (RightMotor, MOTORSPEED);
+        when LeftButtonPressed =>
+          set_motor_speed (LeftMotor, MOTORSPEED);
+          set_motor_speed (RightMotor, 0);
         when UpButtonReleased | DownButtonReleased | RightButtonReleased | LeftButtonReleased =>
           set_motor_speed (LeftMotor, 0);
           set_motor_speed (RightMotor, 0);
